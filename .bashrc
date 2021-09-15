@@ -136,3 +136,4 @@ ex ()
   fi
 }
 /usr/bin/setxkbmap -option "ctrl:nocaps"
+. "$HOME/.cargo/env"
