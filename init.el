@@ -94,6 +94,20 @@
 (scroll-bar-mode -1)
 ;;ここまでるびきちさん
 
+;;; C-x oの代わりのバッファ移動
+(global-set-key "\C-cl" 'windmove-right)
+(global-set-key "\C-ch" 'windmove-left)
+(global-set-key "\C-cj" 'windmove-down)
+(global-set-key "\C-ck" 'windmove-up)
+
+;; neotreeの設定
+(leaf neotree
+  :ensure t
+  :bind (("" . neotree-toggle))
+  :setq ((neo-theme quote ascii)
+         (neo-persist-show . t)
+         (neo-smart-open . t)))
+
 ;; ddskk
 (leaf ddskk
   :ensure t
@@ -204,7 +218,7 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
+   '(neotree modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
