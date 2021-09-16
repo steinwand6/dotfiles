@@ -45,6 +45,15 @@
 ;; use-package
 (leaf use-package :ensure t :require t)
 
+;; encoding
+(set-language-environment "Japanese")
+(prefer-coding-system 'utf-8-unix)
+(setq buffer-file-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-clipboard-coding-system 'utf-8)
+
 ;; るびきちさんのおすすめ最低限設定
 ;;; other-windowをC-x tに置き変える
 (global-set-key (kbd "C-t") 'other-window)
