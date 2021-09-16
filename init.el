@@ -183,6 +183,11 @@
 (leaf yasnippet
   :ensure t)
 
+;; magit
+(leaf magit
+  :ensure t)
+(global-set-key (kbd "C-x g") 'magit-status)
+
 ;; rust用設定
 (add-to-list 'exec-path (expand-file-name "~/bin"))
 (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
@@ -199,7 +204,7 @@
   :ensure t
   :init (yas-global-mode)
   :hook (rust-mode . lsp)
-  :bind ("C-c h" . lsp-describe-thing-at-point)
+  :bind ("C-c d" . lsp-describe-thing-at-point)
   :custom (lsp-rust-server 'rust-analyzer))
 (use-package lsp-ui
   :ensure t)
@@ -218,7 +223,7 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(neotree modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
+   '(magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
