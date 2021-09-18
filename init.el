@@ -109,6 +109,11 @@
 (global-set-key "\C-cj" 'windmove-down)
 (global-set-key "\C-ck" 'windmove-up)
 
+;; smartparens
+(leaf smartparens
+  :ensure t)
+(smartparens-global-mode t)
+
 ;; neotreeの設定
 (leaf neotree
   :ensure t
@@ -230,7 +235,7 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
+   '(smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
