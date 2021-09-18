@@ -113,42 +113,40 @@
 (leaf neotree
   :ensure t
   :bind (("" . neotree-toggle))
-  :setq ((neo-theme quote ascii)
-         (neo-persist-show . t)
-         (neo-smart-open . t)))
+  :custom ((neo-theme quote ascii)
+           (neo-persist-show . t)
+           (neo-smart-open . t)))
 
 ;; ddskk
 (leaf ddskk
-  :ensure t
   :bind (("C-x C-j" . skk-mode)
-         (minibuffer-local-map
-          ("C-j" . skk-kakutei)))
-  :setq ((default-input-method . "japanese-skk")
-         (skk-preload . t)
-         (skk-auto-insert-paren . t))
+         (minibuffer-local-map :package ddskk
+                               ("C-j" . skk-kakutei)))
+  :custom ((default-input-method . "japanese-skk")
+           (skk-preload . t)
+           (skk-auto-insert-paren . t))
   :config
-  (add-hook 'skk-load-hook
-            (lambda nil
-              (setq skk-rom-kana-rule-list (nconc skk-rom-kana-rule-list
-                                                  '((";" nil nil)
-                                                    (":" nil nil)
-                                                    ("?" nil nil)
-                                                    ("!" nil nil))))))
-  (add-hook 'web-mode-hook
-            (lambda nil
-              (skk-mode)
-              (skk-latin-mode-on))))
+  (leaf-handler-package ddskk ddskk nil)
+  (with-eval-after-load 'ddskk
+    (add-hook 'skk-load-hook
+              (lambda nil
+                (custom-set-variables skk-rom-kana-rule-list (nconc skk-rom-kana-rule-list
+                                                                    '((";" nil nil)
+                                                                      (":" nil nil)
+                                                                      ("?" nil nil)
+                                                                      ("!" nil nil))))))))
+
 (leaf sticky
   :ensure ddskk
-  :setq ((skk-sticky-key . ";")))
+  :custom ((skk-sticky-key . ";")))
 
 ;; modus-mode
 (leaf modus-themes
   :ensure t
   :bind (("<f5>" . modus-themes-toggle))
-  :setq ((modus-themes-italic-constructs . t)
-         (modus-themes-bold-constructs)
-         (modus-themes-region quote
+  :custom ((modus-themes-italic-constructs . t)
+           (modus-themes-bold-constructs)
+           (modus-themes-region quote
                               (bg-only no-extend)))
   :config
   (modus-themes-load-themes)
@@ -178,13 +176,13 @@
           ("C-f" . company-complete-selection))
          (emacs-lisp-mode-map
           ("C-M-i" . company-complete)))
-  :setq ((company-transformers quote
-                               (company-sort-by-backend-importance))
-         (company-idle-delay . 0)
-         (company-minimum-prefix-length . 3)
-         (company-selection-wrap-around . t)
-         (completion-ignore-case . t)
-         (company-dabbrev-downcase))
+  :custom ((company-transformers quote
+                                  (company-sort-by-backend-importance))
+            (company-idle-delay . 0)
+            (company-minimum-prefix-length . 3)
+            (company-selection-wrap-around . t)
+            (completion-ignore-case . t)
+            (company-dabbrev-downcase))
   :config
   (global-company-mode))
 
