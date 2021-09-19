@@ -114,6 +114,40 @@
   :ensure t)
 (smartparens-global-mode t)
 
+;; org-mode
+(defvar org-directory "")
+(defvar org-default-notes-file "")
+(setq org-directory "~/Documents/org")
+(setq org-default-notes-file "notes.org")
+;; Org-captureを呼び出すキーシーケンス
+(global-set-key (kbd "C-c c") 'org-capture)
+; Org-captureのテンプレート（メニュー）の設定
+(defvar org-capture-templates "")
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/Documents/org/gtd.org" "INBOX")
+         "* TODO %?\n %i\n %a")
+        ("n" "Note" entry (file+headline "~/Documents/org/notes.org" "Notes")
+         "* %?\nEntered on %U\n %i\n %a")))
+;; メモをC-M-^一発で見るための設定
+;; https://qiita.com/takaxp/items/0b717ad1d0488b74429d から拝借
+(defun show-org-buffer (file)
+  "Show an org-file FILE on the current buffer."
+  (interactive)
+  (if (get-buffer file)
+      (let ((buffer (get-buffer file)))
+        (switch-to-buffer buffer)
+        (message "%s" file))
+    (find-file (concat "~/Documents/org/" file))))
+(global-set-key (kbd "C-M-^") '(lambda () (interactive)
+                                 (show-org-buffer "notes.org")))
+(defvar org-agenda-files "")
+(setq org-agenda-files '("~/Documents/org"))
+(defvar org-refile-targets "")
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+(defvar org-todo-keywords "")
+(setq org-todo-keywords
+  '((sequence "TODO" "SOMEDAY" "WAITING" "|" "DONE")))
+
 ;; neotreeの設定
 (leaf neotree
   :ensure t
@@ -123,6 +157,7 @@
            (neo-smart-open . t)))
 
 ;; ddskk
+(defvar skk-rom-kana-rule-list "")
 (leaf ddskk
   :bind (("C-x C-j" . skk-mode)
          (minibuffer-local-map :package ddskk
@@ -157,6 +192,11 @@
   (modus-themes-load-themes)
   (with-eval-after-load 'modus-themes
     (modus-themes-load-operandi)))
+
+;; alpha
+(if window-system 
+    (progn
+      (set-frame-parameter nil 'alpha 92)))
 
 ;; comapany
 (leaf company
@@ -235,7 +275,7 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
+   '(smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
