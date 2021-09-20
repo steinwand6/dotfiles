@@ -28,7 +28,8 @@
     ;; initialize leaf-keywords.el
     (leaf-keywords-init)))
 
-;; ここにいっぱい設定を書く
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; leafの推奨設定
 (leaf leaf
   :config
@@ -42,10 +43,71 @@
   :ensure t
   :bind (("C-c e" . macrostep-expand)))
 
-;; use-package
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 必須パッケージ
+;;; use-package
 (leaf use-package :ensure t :require t)
 
-;; encoding
+;;; smartparens (要らないかも)
+(leaf smartparens
+  :ensure t)
+(smartparens-global-mode t)
+
+;; neotree
+(leaf neotree
+  :ensure t
+  :bind (("" . neotree-toggle))
+  :custom ((neo-theme quote ascii)
+           (neo-persist-show . t)
+           (neo-smart-open . t)))
+
+;; comapany
+(leaf company
+  :ensure t
+  :bind (("C-M-i" . company-complete)
+         (company-active-map
+          ("C-n" . company-select-next))
+         (company-active-map
+          ("C-p" . company-select-previous))
+         (company-search-map
+          ("C-n" . company-select-next))
+         (company-search-map
+          ("C-p" . company-select-previous))
+         (company-active-map
+          ("C-s" . company-filter-candidates))
+         (company-active-map
+          ("C-i" . company-complete-selection))
+         (company-active-map
+          ([tab]
+           . company-complete-selection))
+         (company-active-map
+          ("C-f" . company-complete-selection))
+         (emacs-lisp-mode-map
+          ("C-M-i" . company-complete)))
+  :custom ((company-transformers quote
+                                  (company-sort-by-backend-importance))
+            (company-idle-delay . 0)
+            (company-minimum-prefix-length . 3)
+            (company-selection-wrap-around . t)
+            (completion-ignore-case . t)
+            (company-dabbrev-downcase))
+  :config
+  (global-company-mode))
+
+;; yasnippet
+(leaf yasnippet
+  :ensure t)
+
+;; magit
+(leaf magit
+  :ensure t)
+(global-set-key (kbd "C-x g") 'magit-status)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 基本設定
+;;; encoding
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8-unix)
 (setq buffer-file-coding-system 'utf-8)
@@ -53,8 +115,6 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-clipboard-coding-system 'utf-8)
-
-;; 基本設定
 ;;; other-windowをC-tに置き変える
 (global-set-key (kbd "C-t") 'other-window)
 ;;; 括弧の自動補完機能らしい
@@ -102,7 +162,6 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 ;;; 行番号表示
-;; display line numbers
 (if (version<= "26.0.50" emacs-version)
     (progn
       (global-display-line-numbers-mode)
@@ -113,18 +172,14 @@
                           :foreground "gold")))
 (setq-default indicate-empty-lines t)
 (setq-default indicate-buffer-boundaries 'left)
-
 ;;; C-x oの代わりのバッファ移動
 (global-set-key "\C-cl" 'windmove-right)
 (global-set-key "\C-ch" 'windmove-left)
 (global-set-key "\C-cj" 'windmove-down)
 (global-set-key "\C-ck" 'windmove-up)
 
-;; smartparens
-(leaf smartparens
-  :ensure t)
-(smartparens-global-mode t)
-
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-mode
 (defvar org-directory "")
 (defvar org-default-notes-file "")
@@ -159,14 +214,8 @@
 (setq org-todo-keywords
   '((sequence "TODO" "SOMEDAY" "WAITING" "|" "DONE")))
 
-;; neotreeの設定
-(leaf neotree
-  :ensure t
-  :bind (("" . neotree-toggle))
-  :custom ((neo-theme quote ascii)
-           (neo-persist-show . t)
-           (neo-smart-open . t)))
-
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ddskk
 (leaf ddskk
   :bind (("C-x C-j" . skk-mode)
@@ -185,12 +234,14 @@
                                                                       (":" nil nil)
                                                                       ("?" nil nil)
                                                                       ("!" nil nil))))))))
-
 (leaf sticky
   :ensure ddskk
   :custom ((skk-sticky-key . ";")))
 
-;; modus-mode
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 見映え
+;;; modus-mode
 (leaf modus-themes
   :ensure t
   :bind (("<f5>" . modus-themes-toggle))
@@ -202,54 +253,13 @@
   (modus-themes-load-themes)
   (with-eval-after-load 'modus-themes
     (modus-themes-load-operandi)))
-
-;; alpha
+;;; alpha
 (if window-system 
     (progn
       (set-frame-parameter nil 'alpha 92)))
 
-;; comapany
-(leaf company
-  :ensure t
-  :bind (("C-M-i" . company-complete)
-         (company-active-map
-          ("C-n" . company-select-next))
-         (company-active-map
-          ("C-p" . company-select-previous))
-         (company-search-map
-          ("C-n" . company-select-next))
-         (company-search-map
-          ("C-p" . company-select-previous))
-         (company-active-map
-          ("C-s" . company-filter-candidates))
-         (company-active-map
-          ("C-i" . company-complete-selection))
-         (company-active-map
-          ([tab]
-           . company-complete-selection))
-         (company-active-map
-          ("C-f" . company-complete-selection))
-         (emacs-lisp-mode-map
-          ("C-M-i" . company-complete)))
-  :custom ((company-transformers quote
-                                  (company-sort-by-backend-importance))
-            (company-idle-delay . 0)
-            (company-minimum-prefix-length . 3)
-            (company-selection-wrap-around . t)
-            (completion-ignore-case . t)
-            (company-dabbrev-downcase))
-  :config
-  (global-company-mode))
-
-;; yasnippet
-(leaf yasnippet
-  :ensure t)
-
-;; magit
-(leaf magit
-  :ensure t)
-(global-set-key (kbd "C-x g") 'magit-status)
-
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; rust用設定
 (add-to-list 'exec-path (expand-file-name "~/bin"))
 (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
@@ -260,7 +270,6 @@
 (use-package cargo
   :ensure t
   :hook (rust-mode . cargo-minor-mode))
-
 ;;; lsp
 (use-package lsp-mode
   :ensure t
@@ -272,6 +281,7 @@
   :ensure t)
 
 (provide 'init)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
