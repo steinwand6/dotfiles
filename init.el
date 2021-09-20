@@ -54,8 +54,8 @@
 (set-keyboard-coding-system 'utf-8)
 (set-clipboard-coding-system 'utf-8)
 
-;; るびきちさんのおすすめ最低限設定
-;;; other-windowをC-x tに置き変える
+;; 基本設定
+;;; other-windowをC-tに置き変える
 (global-set-key (kbd "C-t") 'other-window)
 ;;; 括弧の自動補完機能らしい
 (electric-pair-mode 1)
@@ -101,7 +101,18 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-;;ここまでるびきちさん
+;;; 行番号表示
+;; display line numbers
+(if (version<= "26.0.50" emacs-version)
+    (progn
+      (global-display-line-numbers-mode)
+      (set-face-attribute 'line-number nil
+                          :foreground "DarkOliveGreen"
+                          :background "#131521")
+      (set-face-attribute 'line-number-current-line nil
+                          :foreground "gold")))
+(setq-default indicate-empty-lines t)
+(setq-default indicate-buffer-boundaries 'left)
 
 ;;; C-x oの代わりのバッファ移動
 (global-set-key "\C-cl" 'windmove-right)
@@ -139,7 +150,7 @@
         (message "%s" file))
     (find-file (concat "~/Documents/org/" file))))
 (global-set-key (kbd "C-M-^") '(lambda () (interactive)
-                                 (show-org-buffer "notes.org")))
+                                 (show-org-buffer "gtd.org")))
 (defvar org-agenda-files "")
 (setq org-agenda-files '("~/Documents/org"))
 (defvar org-refile-targets "")
@@ -157,7 +168,6 @@
            (neo-smart-open . t)))
 
 ;; ddskk
-(defvar skk-rom-kana-rule-list "")
 (leaf ddskk
   :bind (("C-x C-j" . skk-mode)
          (minibuffer-local-map :package ddskk
@@ -268,6 +278,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
+ '(display-time-mode t)
  '(imenu-list-position 'left t)
  '(imenu-list-size 30 t)
  '(package-archives
@@ -275,13 +288,14 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout)))
+   '(smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+ '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Source Code Pro" :foundry "ADBO" :slant normal :weight normal :height 120 :width normal)))))
 ;; Local Variables:
 ;; indent-tabs-mode: nil
 ;; End:
