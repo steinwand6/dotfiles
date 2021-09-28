@@ -49,10 +49,10 @@
 ;;; use-package
 (leaf use-package :ensure t :require t)
 
-;;; smartparens (要らないかも)
+;;; smartparens (要らない気がしてきたのでデフォで有効にはしない)
 (leaf smartparens
   :ensure t)
-(smartparens-global-mode t)
+;;;;(smartparens-global-mode t)
 
 ;; neotree
 (leaf neotree
@@ -279,6 +279,26 @@
   :custom (lsp-rust-server 'rust-analyzer))
 (use-package lsp-ui
   :ensure t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; C言語用設定(手探り中)
+(setq-default c-basic-offset 4     ;;基本インデント量4
+              tab-width 4          ;;タブ幅4
+               indent-tabs-mode nil)  ;;インデントをタブでするかスペースでするか
+
+;; C++ style
+(defun add-c++-mode-conf ()
+  (c-set-style "stroustrup")  ;;スタイルはストラウストラップ
+  (show-paren-mode t))        ;;カッコを強調表示する
+(add-hook 'c++-mode-hook 'add-c++-mode-conf)
+
+;; C style
+(defun add-c-mode-common-conf ()
+  (c-set-style "stroustrup")                  ;;スタイルはストラウストラップ
+  (show-paren-mode t)                         ;;カッコを強調表示する
+  )
+(add-hook 'c-mode-common-hook 'add-c-mode-common-conf)
 
 (provide 'init)
 
