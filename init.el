@@ -45,7 +45,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 必須パッケージ
+;; 雑多なパッケージ
 ;;; use-package
 (leaf use-package :ensure t :require t)
 
@@ -240,6 +240,58 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; vertico関連
+(leaf vertico
+  :ensure t
+  :require t
+  :custom (vertico-count . 10))
+(leaf consult
+  :ensure t
+  :require t)
+(leaf marginalia
+  :ensure t
+  :config (marginalia-mode))
+(leaf embark
+  :ensure t)
+;; 補完スタイルにorderlessを利用する
+(leaf orderless
+  :ensure t
+  :custom (completion-styles . '(orderless)))
+
+;; vertico-modeとmarginalia-modeを有効化する
+(defun after-init-hook ()
+  (vertico-mode)
+  (marginalia-mode)
+  ;; savehist-modeを使ってVerticoの順番を永続化する
+  (savehist-mode))
+(add-hook 'after-init-hook #'after-init-hook)
+
+;; embark-consultを読み込む
+(leaf embark-consult
+  :ensure t
+  :after (embark consult)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+;; C-uを付けるとカーソル位置の文字列を使うmy-consult-lineコマンドを定義する
+(defun my-consult-line (&optional at-point)
+  "Consult-line uses things-at-point if set C-u prefix."
+  (interactive "P")
+  (if at-point
+      (consult-line (thing-at-point 'symbol))
+    (consult-line)))
+
+;; C-s（isearch-forward）をmy-consult-lineコマンドに割り当てる
+(global-set-key (kbd "C-s") 'my-consult-line)
+
+;; C-s/C-rで行を移動できるようにする
+(with-eval-after-load 'vertico
+  (define-key vertico-map (kbd "C-r") 'vertico-previous)
+  (define-key vertico-map (kbd "C-s") 'vertico-next))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 見映え
 ;;; modus-mode
 (leaf modus-themes
@@ -309,17 +361,33 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
+ '(company-dabbrev-downcase nil t)
+ '(company-idle-delay 0 t)
+ '(company-minimum-prefix-length 3 t)
+ '(company-selection-wrap-around t t)
+ '(company-transformers '(company-sort-by-backend-importance) t)
+ '(completion-ignore-case t t)
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
  '(display-time-mode t)
  '(imenu-list-position 'left t)
  '(imenu-list-size 30 t)
+ '(modus-themes-bold-constructs nil t)
+ '(modus-themes-italic-constructs t t)
+ '(modus-themes-region '(bg-only no-extend) t)
+ '(neo-persist-show t t)
+ '(neo-smart-open t t)
+ '(neo-theme 'ascii t)
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
- '(show-paren-mode t))
+   '('embark marginalia orderless consult smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+ '(show-paren-mode t)
+ '(skk-auto-insert-paren t)
+ '(skk-preload t)
+ '(skk-sticky-key ";")
+ '(vertico-count 20))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
