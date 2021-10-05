@@ -181,38 +181,57 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-mode
-(defvar org-directory "")
-(defvar org-default-notes-file "")
-(setq org-directory "~/Documents/org")
-(setq org-default-notes-file "notes.org")
-;; Org-captureを呼び出すキーシーケンス
-(global-set-key (kbd "C-c c") 'org-capture)
+(defvar org-todo-keywords "")
+(setq org-todo-keywords
+      '((sequence "TODO" "DOING" "SOMEDAY" "WAITING" "|" "DONE")))
+(leaf org-journal
+  :ensure t
+  :config
+  (let ((custom--inhibit-theme-enable nil))
+    (unless (memq 'use-package custom-known-themes)
+      (deftheme use-package)
+      (enable-theme 'use-package)
+      (setq custom-enabled-themes (remq 'use-package custom-enabled-themes)))
+    (custom-theme-set-variables 'use-package
+                                '(org-journal-dir "~/Dropbox/emacs/org/journal" nil nil "Customized with use-package org-journal")
+                                '(org-journal-date-format "%A, %d %B %Y" nil nil "Customized with use-package org-journal"))))
+
+(defun org-journal-find-location ()
+  (org-journal-new-entry t)
+  (goto-char (point-min)))
+(setq org-log-done 'time)
+(setq org-use-speed-commands t)
+(setq org-src-fontify-natively t)
+(setq org-agenda-files '("~/Dropbox/emacs/org/task.org"))
+
+(bind-key "C-c a" 'org-agenda)
+(bind-key "C-c c" 'org-capture)
+
 ; Org-captureのテンプレート（メニュー）の設定
 (defvar org-capture-templates "")
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/Documents/org/gtd.org" "INBOX")
-         "* TODO %?\n %i\n %a")
-        ("n" "Note" entry (file+headline "~/Documents/org/notes.org" "Notes")
-         "* %?\nEntered on %U\n %i\n %a")))
-;; メモをC-M-^一発で見るための設定
-;; https://qiita.com/takaxp/items/0b717ad1d0488b74429d から拝借
-(defun show-org-buffer (file)
-  "Show an org-file FILE on the current buffer."
-  (interactive)
-  (if (get-buffer file)
-      (let ((buffer (get-buffer file)))
-        (switch-to-buffer buffer)
-        (message "%s" file))
-    (find-file (concat "~/Documents/org/" file))))
-(global-set-key (kbd "C-M-^") '(lambda () (interactive)
-                                 (show-org-buffer "gtd.org")))
-(defvar org-agenda-files "")
-(setq org-agenda-files '("~/Documents/org"))
+      '(("e" "Experiment" entry (file+headline "~/Dropbox/emacs/org/experiment.org" "Experiment")
+	 "* %? %U %i\n
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC")
+	("i" "Idea" entry (file+headline "~/Dropbox/emacs/org/idea.org" "Idea")
+	 "* %? %U %i")
+	("r" "Remember" entry (file+headline "~/Dropbox/emacs/org/remember.org" "Remember")
+	 "* %? %U %i")
+	("m" "Memo" entry (file+headline "~/Dropbox/emacs/org/memo.org" "Memo")
+	 "* %? %U %i")
+	("t" "Task" entry (file+headline "~/Dropbox/emacs/org/task.org" "Task")
+	 "** TODO %? \n   SCHEDULED: %^t \n")
+    ("j" "Journal entry" entry (function org-journal-find-location)
+     "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?")))
+
 (defvar org-refile-targets "")
-(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-(defvar org-todo-keywords "")
-(setq org-todo-keywords
-  '((sequence "TODO" "SOMEDAY" "WAITING" "|" "DONE")))
+(setq org-refile-targets
+      (quote (("~/Dropbox/emacs/org/archives.org" :level . 1)
+	      ("~/Dropbox/emacs/org/remember.org" :level . 1)
+	      ("~/Dropbox/emacs/org/memo.org" :level . 1)
+	      ("~/Dropbox/emacs/org/task.org" :level . 1))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -361,19 +380,19 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(company-dabbrev-downcase nil t)
- '(company-idle-delay 0 t)
- '(company-minimum-prefix-length 3 t)
- '(company-selection-wrap-around t t)
- '(company-transformers '(company-sort-by-backend-importance) t)
+ '(company-dabbrev-downcase nil)
+ '(company-idle-delay 0)
+ '(company-minimum-prefix-length 3)
+ '(company-selection-wrap-around t)
+ '(company-transformers '(company-sort-by-backend-importance))
  '(completion-ignore-case t t)
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
  '(display-time-mode t)
  '(imenu-list-position 'left t)
  '(imenu-list-size 30 t)
- '(modus-themes-bold-constructs nil t)
- '(modus-themes-italic-constructs t t)
- '(modus-themes-region '(bg-only no-extend) t)
+ '(modus-themes-bold-constructs nil)
+ '(modus-themes-italic-constructs t)
+ '(modus-themes-region '(bg-only no-extend))
  '(neo-persist-show t t)
  '(neo-smart-open t t)
  '(neo-theme 'ascii t)
@@ -382,12 +401,11 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '('embark marginalia orderless consult smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
- '(skk-sticky-key ";")
- '(vertico-count 20))
+ '(skk-sticky-key ";"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
