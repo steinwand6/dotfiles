@@ -346,7 +346,8 @@
   :ensure t
   :init (yas-global-mode)
   :hook (rust-mode . lsp)
-  :bind ("C-c d" . lsp-describe-thing-at-point)
+  :bind (("C-c d" . lsp-describe-thing-at-point)
+         ("C-c C-i" . lsp-ui-doc-focus-frame))
   :custom (lsp-rust-server 'rust-analyzer))
 (use-package lsp-ui
   :ensure t)
