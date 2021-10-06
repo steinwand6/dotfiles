@@ -372,6 +372,15 @@
   )
 (add-hook 'c-mode-common-hook 'add-c-mode-common-conf)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; mark-ring
+(leaf back-button
+  :ensure t
+  :require t)
+(back-button-mode 1)
+
+
 (provide 'init)
 
 
@@ -381,12 +390,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(company-dabbrev-downcase nil)
- '(company-idle-delay 0)
- '(company-minimum-prefix-length 3)
- '(company-selection-wrap-around t)
- '(company-transformers '(company-sort-by-backend-importance))
+ '(company-dabbrev-downcase nil t)
+ '(company-idle-delay 0 t)
+ '(company-minimum-prefix-length 3 t)
+ '(company-selection-wrap-around t t)
+ '(company-transformers '(company-sort-by-backend-importance) t)
  '(completion-ignore-case t t)
+ '(completion-styles '(orderless))
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
  '(display-time-mode t)
  '(imenu-list-position 'left t)
