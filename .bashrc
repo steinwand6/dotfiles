@@ -137,3 +137,5 @@ ex ()
 }
 /usr/bin/setxkbmap -option "ctrl:nocaps"
 . "$HOME/.cargo/env"
+
+export LANG=en_US

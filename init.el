@@ -380,6 +380,14 @@
   :require t)
 (back-button-mode 1)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; superキーを使いたい(lspの中で定義されている)
+(defun shani-cheer ()
+  (interactive)
+  (shell-command "~/Dropbox/random_open.sh shani_cheer"))
+(bind-key "s-@" #'shani-cheer)
+;;; kill-this-buffer
+(bind-key "s-k" #'kill-this-buffer)
 
 (provide 'init)
 

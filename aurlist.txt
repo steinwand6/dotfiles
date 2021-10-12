@@ -1,0 +1,5 @@
+[?25lauracle-git
+dropbox
+google-chrome
+kbdlight
+[?25h
