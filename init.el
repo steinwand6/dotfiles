@@ -104,6 +104,12 @@
   :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; emogify
+(leaf emojify
+  :ensure t
+  :commands global-emojify-mode
+  :hook ((after-init-hook . global-emojify-mode)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 基本設定
@@ -256,6 +262,7 @@
 (leaf sticky
   :ensure ddskk
   :custom ((skk-sticky-key . ";")))
+(setq skk-large-jisyo "~/.SKK-JISYO.L")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -398,11 +405,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(company-dabbrev-downcase nil t)
- '(company-idle-delay 0 t)
- '(company-minimum-prefix-length 3 t)
- '(company-selection-wrap-around t t)
- '(company-transformers '(company-sort-by-backend-importance) t)
+ '(company-dabbrev-downcase nil)
+ '(company-idle-delay 0)
+ '(company-minimum-prefix-length 3)
+ '(company-selection-wrap-around t)
+ '(company-transformers '(company-sort-by-backend-importance))
  '(completion-ignore-case t t)
  '(completion-styles '(orderless))
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
@@ -413,18 +420,19 @@
  '(modus-themes-italic-constructs t)
  '(modus-themes-region '(bg-only no-extend))
  '(neo-persist-show t t)
- '(neo-smart-open t t)
- '(neo-theme 'ascii t)
+ '(neo-smart-open t)
+ '(neo-theme 'ascii)
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
- '(skk-sticky-key ";"))
+ '(skk-sticky-key ";")
+ '(vertico-count 10))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
