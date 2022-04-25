@@ -364,7 +364,7 @@
 ;; C言語用設定(手探り中)
 (setq-default c-basic-offset 4     ;;基本インデント量4
               tab-width 4          ;;タブ幅4
-               indent-tabs-mode nil)  ;;インデントをタブでするかスペースでするか
+               indent-tabs-mode t)  ;;インデントをタブでするかスペースでするか
 
 ;; C++ style
 (defun add-c++-mode-conf ()

@@ -1,5 +1,8 @@
 [?25lauracle-git
 dropbox
+galculator-gtk2
 google-chrome
 kbdlight
+linux513
+pacaur
 [?25h

@@ -39,6 +39,8 @@ discord
 dmidecode
 dmraid
 dnsmasq
+docker
+docker-compose
 dosfstools
 e2fsprogs
 ecryptfs-utils
@@ -59,7 +61,6 @@ findutils
 firefox
 flex
 freetype2
-galculator-gtk2
 garcon
 gawk
 gcc
@@ -69,8 +70,8 @@ gettext
 gimp
 glibc
 gnome-icon-theme
-gnome-keyring
 gnome-themes-extra
+go
 gparted
 grep
 grub
@@ -130,7 +131,6 @@ lightdm
 lightdm-gtk-greeter
 lightdm-gtk-greeter-settings
 linux-firmware
-linux513
 linux54-virtualbox-host-modules
 logrotate
 lsb-release
@@ -179,8 +179,10 @@ networkmanager-openvpn
 networkmanager-pptp
 networkmanager-vpnc
 nfs-utils
+nodejs
 noto-fonts
 noto-fonts-emoji
+npm
 nss-mdns
 ntfs-3g
 ntp
@@ -190,7 +192,6 @@ openresolv
 openssh
 os-prober
 p7zip
-pacaur
 pacman
 pamac-gtk
 patch
@@ -202,6 +203,7 @@ pidgin
 pkgconf
 poppler-data
 poppler-glib
+postgresql
 powertop
 procps-ng
 psmisc
