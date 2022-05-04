@@ -381,6 +381,25 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; go
+(setq exec-path (cons (expand-file-name "~/go/bin") exec-path))
+(add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'go-mode-hook #'lsp)
+(defun go-mode-omnibus ()
+  ;; Go code formatting by goimports
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  ;; Customize compile command to run go build
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+  )
+(add-hook 'go-mode-hook 'go-mode-omnibus)
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mark-ring
 (leaf back-button
   :ensure t
@@ -415,20 +434,20 @@
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
  '(display-time-mode t)
  '(highlight-tail-colors '(("#2f4a00" . 0) ("#00415e" . 20)))
- '(imenu-list-position 'left)
- '(imenu-list-size 30)
+ '(imenu-list-position 'left t)
+ '(imenu-list-size 30 t)
  '(modus-themes-bold-constructs nil)
  '(modus-themes-italic-constructs t)
  '(modus-themes-region '(bg-only no-extend))
  '(neo-persist-show t t)
- '(neo-smart-open t t)
- '(neo-theme 'ascii t)
+ '(neo-smart-open t)
+ '(neo-theme 'ascii)
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
