@@ -27,7 +27,6 @@ clamtk
 cool-retro-term
 coreutils
 cpupower
-crda
 cronie
 cryptsetup
 dbus-x11
@@ -69,7 +68,6 @@ gcolor2
 gettext
 gimp
 glibc
-gnome-icon-theme
 gnome-themes-extra
 go
 gparted
@@ -210,9 +208,9 @@ psmisc
 pulseaudio-bluetooth
 pulseaudio-ctl
 pulseaudio-zeroconf
-qpdfview
 reiserfsprogs
 rsync
+rust-analyzer
 s-nail
 samba
 screenfetch

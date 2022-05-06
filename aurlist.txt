@@ -1,8 +1,10 @@
 [?25lauracle-git
 dropbox
 galculator-gtk2
+gnome-icon-theme
 google-chrome
 kbdlight
 linux513
 pacaur
+qpdfview
 [?25h
