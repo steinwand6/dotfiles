@@ -1,4 +1,4 @@
-[?25laccountsservice
+accountsservice
 acpi
 acpid
 adobe-source-han-sans-cn-fonts
@@ -211,6 +211,7 @@ pulseaudio-zeroconf
 reiserfsprogs
 rsync
 rust-analyzer
+rustup
 s-nail
 samba
 screenfetch
@@ -321,4 +322,3 @@ xsettingsd
 yelp
 zensu
 zsh
-[?25h

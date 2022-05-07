@@ -1,4 +1,4 @@
-[?25lauracle-git
+auracle-git
 dropbox
 galculator-gtk2
 gnome-icon-theme
@@ -7,4 +7,3 @@ kbdlight
 linux513
 pacaur
 qpdfview
-[?25h
