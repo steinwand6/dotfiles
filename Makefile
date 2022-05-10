@@ -14,3 +14,5 @@ rust:
 	rustup default stable
 	cargo install cargo-edit
 	cargo install cargo-expand
+	cargo install cargo-watch
+	cargo install cargo-tarpaulin
