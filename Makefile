@@ -16,3 +16,4 @@ rust:
 	cargo install cargo-expand
 	cargo install cargo-watch
 	cargo install cargo-tarpaulin
+	cargo install cargo-audit
