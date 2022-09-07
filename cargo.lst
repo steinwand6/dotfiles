@@ -1,0 +1,5 @@
+cargo         cargo-fmt       cargo-tarpaulin  rust-lldb  rustup
+cargo-add     cargo-generate  cargo-upgrade    rustc      sqlx
+cargo-audit   cargo-miri      clippy-driver    rustdoc    wasm-pack
+cargo-clippy  cargo-rm        rls              rustfmt    wasm-pack.stamp
+cargo-expand  cargo-sqlx      rust-gdb         rustlings  

@@ -9,6 +9,9 @@ pacman:
 	pacman -S emacs
 	pacman -S rustup
 	pacman -S go
+	pacman -S snapd
+	pacman -S rlwrap
+	pacman -S sbcl
 
 rust:
 	rustup default stable
@@ -18,3 +21,8 @@ rust:
 	cargo install cargo-tarpaulin
 	cargo install cargo-audit
 	cargo install cargo-asm
+
+c:
+	systemctl enable --now snapd.socket
+	ln -s /var/lib/snapd/snap /snap
+	snap install ccls --classic

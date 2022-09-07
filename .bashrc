@@ -138,3 +138,5 @@ ex ()
 /usr/bin/setxkbmap -option "ctrl:nocaps"
 
 export LANG=en_US
+
+[ -f "/home/tomo/.ghcup/env" ] && source "/home/tomo/.ghcup/env" # ghcup-env

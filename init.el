@@ -379,6 +379,11 @@
   )
 (add-hook 'c-mode-common-hook 'add-c-mode-common-conf)
 
+;; ccls
+(require 'ccls)
+(setq ccls-executable "/var/lib/snapd/snap/bin/ccls")
+(add-hook 'c-mode-hook #'lsp)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; go
@@ -424,11 +429,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(company-dabbrev-downcase nil)
- '(company-idle-delay 0)
- '(company-minimum-prefix-length 3)
- '(company-selection-wrap-around t)
- '(company-transformers '(company-sort-by-backend-importance))
+ '(company-dabbrev-downcase nil t)
+ '(company-idle-delay 0 t)
+ '(company-minimum-prefix-length 3 t)
+ '(company-selection-wrap-around t t)
+ '(company-transformers '(company-sort-by-backend-importance) t)
  '(completion-ignore-case t t)
  '(completion-styles '(orderless))
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
@@ -440,14 +445,14 @@
  '(modus-themes-italic-constructs t)
  '(modus-themes-region '(bg-only no-extend))
  '(neo-persist-show t t)
- '(neo-smart-open t)
- '(neo-theme 'ascii)
+ '(neo-smart-open t t)
+ '(neo-theme 'ascii t)
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
