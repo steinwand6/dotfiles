@@ -21,6 +21,7 @@ rust:
 	cargo install cargo-tarpaulin
 	cargo install cargo-audit
 	cargo install cargo-asm
+	pacman -S rust-analyzer
 
 c:
 	systemctl enable --now snapd.socket

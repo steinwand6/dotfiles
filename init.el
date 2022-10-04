@@ -401,7 +401,10 @@
   )
 (add-hook 'go-mode-hook 'go-mode-omnibus)
 
-
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; slime
+(setq inferior-lisp-program "sbcl")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -411,6 +414,7 @@
   :require t)
 (back-button-mode 1)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; superキーを使いたい(lspの中で定義されている)
 (defun shani-cheer ()
@@ -429,11 +433,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(company-dabbrev-downcase nil t)
- '(company-idle-delay 0 t)
- '(company-minimum-prefix-length 3 t)
- '(company-selection-wrap-around t t)
- '(company-transformers '(company-sort-by-backend-importance) t)
+ '(company-dabbrev-downcase nil)
+ '(company-idle-delay 0)
+ '(company-minimum-prefix-length 3)
+ '(company-selection-wrap-around t)
+ '(company-transformers '(company-sort-by-backend-importance))
  '(completion-ignore-case t t)
  '(completion-styles '(orderless))
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
@@ -445,14 +449,14 @@
  '(modus-themes-italic-constructs t)
  '(modus-themes-region '(bg-only no-extend))
  '(neo-persist-show t t)
- '(neo-smart-open t t)
- '(neo-theme 'ascii t)
+ '(neo-smart-open t)
+ '(neo-theme 'ascii)
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
