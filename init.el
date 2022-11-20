@@ -456,7 +456,7 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(yaml-mode slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
