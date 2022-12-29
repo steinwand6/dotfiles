@@ -189,7 +189,7 @@
 ;; org-mode
 (defvar org-todo-keywords "")
 (setq org-todo-keywords
-      '((sequence "TODO" "DOING" "SOMEDAY" "WAITING" "|" "DONE")))
+      '((sequence "TODO" "SOMEDAY" "WAITING" "|" "DONE")))
 (leaf org-journal
   :ensure t
   :config
@@ -227,7 +227,7 @@
 	 "* %? %U %i")
 	("m" "Memo" entry (file+headline "~/Dropbox/emacs/org/memo.org" "Memo")
 	 "* %? %U %i")
-	("t" "Task" entry (file+headline "~/Dropbox/emacs/org/task.org" "Task")
+	("t" "Task" entry (file+headline "~/Dropbox/emacs/org/inbox.org" "Task")
 	 "** TODO %? \n   SCHEDULED: %^t \n")
     ("j" "Journal entry" entry (function org-journal-find-location)
      "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?")))
@@ -238,6 +238,45 @@
 	      ("~/Dropbox/emacs/org/remember.org" :level . 1)
 	      ("~/Dropbox/emacs/org/memo.org" :level . 1)
 	      ("~/Dropbox/emacs/org/task.org" :level . 1))))
+
+;; メモをC-M-^一発で見るための設定
+;; https://qiita.com/takaxp/items/0b717ad1d0488b74429d から拝借
+(defun show-org-buffer (file)
+  "Show an org-file FILE on the current buffer."
+  (interactive)
+  (if (get-buffer file)
+      (let ((buffer (get-buffer file)))
+        (switch-to-buffer buffer)
+        (message "%s" file))
+    (find-file (concat "~/Dropbox/emacs/org/" file))))
+(global-set-key (kbd "C-M-^ i") '(lambda () (interactive)
+                                   (show-org-buffer "inbox.org")))
+(global-set-key (kbd "C-M-^ t") '(lambda () (interactive)
+                                   (show-org-buffer "task.org")))
+(global-set-key (kbd "C-M-^ m") '(lambda () (interactive)
+                                 (show-org-buffer "memo.org")))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org-roam
+(use-package org-roam
+  :init
+  (setq org-roam-v2-ack t)
+  :after org
+  :defer t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-db-update-method 'immediate)
+  (org-roam-db-location "~/.emacs.d/org-roam.db")
+  (org-roam-directory "~/Dropbox/emacs/org/org-roam/")
+  (org-roam-index-file "~/Dropbox/emacs/org/org-roam/Index.org")
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n I" . org-roam-insert-immediate))
+  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -433,11 +472,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(company-dabbrev-downcase nil)
- '(company-idle-delay 0)
- '(company-minimum-prefix-length 3)
- '(company-selection-wrap-around t)
- '(company-transformers '(company-sort-by-backend-importance))
+ '(company-dabbrev-downcase nil t)
+ '(company-idle-delay 0 t)
+ '(company-minimum-prefix-length 3 t)
+ '(company-selection-wrap-around t t)
+ '(company-transformers '(company-sort-by-backend-importance) t)
  '(completion-ignore-case t t)
  '(completion-styles '(orderless))
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
@@ -449,14 +488,14 @@
  '(modus-themes-italic-constructs t)
  '(modus-themes-region '(bg-only no-extend))
  '(neo-persist-show t t)
- '(neo-smart-open t)
- '(neo-theme 'ascii)
+ '(neo-smart-open t t)
+ '(neo-theme 'ascii t)
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(yaml-mode slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(consult-org-roam org-roam-ui org-roam slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
