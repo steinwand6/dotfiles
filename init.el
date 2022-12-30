@@ -377,26 +377,31 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Language Server
+(use-package lsp-mode
+  :ensure t
+  :init (yas-global-mode)
+  :hook ((rust-mode . lsp)
+         (python-mode .lsp))
+  :bind (("C-c d" . lsp-describe-thing-at-point)
+         ("C-c C-i" . lsp-ui-doc-focus-frame))
+  :custom (lsp-rust-server 'rust-analyzer))
+
+(use-package lsp-ui
+  :ensure t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; rust用設定
 (add-to-list 'exec-path (expand-file-name "~/bin"))
 (add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
-;;; rust
+
 (use-package rust-mode
   :ensure t
   :custom rust-format-on-save t)
 (use-package cargo
   :ensure t
   :hook (rust-mode . cargo-minor-mode))
-;;; lsp
-(use-package lsp-mode
-  :ensure t
-  :init (yas-global-mode)
-  :hook (rust-mode . lsp)
-  :bind (("C-c d" . lsp-describe-thing-at-point)
-         ("C-c C-i" . lsp-ui-doc-focus-frame))
-  :custom (lsp-rust-server 'rust-analyzer))
-(use-package lsp-ui
-  :ensure t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -444,6 +449,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; slime
 (setq inferior-lisp-program "sbcl")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Python
+;; https://tam5917.hatenablog.com/entry/2022/01/23/234718
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(setq interpreter-mode-alist (cons '("python" . python-mode)
+                                   interpreter-mode-alist))
+
+;; 保存時に自動整形
+(add-hook 'python-mode-hook
+          #'(lambda ()
+              (add-hook 'before-save-hook
+                        'lsp-format-buffer)))
+(add-hook 'python-mode-hook #python-isort-on-save-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -495,7 +515,7 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(tramp consult-org-roam org-roam-ui org-roam slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(python-isort python-mode tramp consult-org-roam org-roam-ui org-roam slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
