@@ -488,14 +488,14 @@
  '(modus-themes-italic-constructs t)
  '(modus-themes-region '(bg-only no-extend))
  '(neo-persist-show t t)
- '(neo-smart-open t t)
- '(neo-theme 'ascii t)
+ '(neo-smart-open t)
+ '(neo-theme 'ascii)
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(consult-org-roam org-roam-ui org-roam slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(tramp consult-org-roam org-roam-ui org-roam slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
