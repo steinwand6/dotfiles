@@ -260,18 +260,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-roam
 (use-package org-roam
+  :ensure t
   :init
   (setq org-roam-v2-ack t)
-  :ensure t
   :after org
   :defer t
-  :hook
-  (after-init . org-roam-mode)
   :custom
   (org-roam-db-update-method 'immediate)
   (org-roam-db-location "~/.emacs.d/org-roam.db")
   (org-roam-directory "~/Dropbox/emacs/org/org-roam/")
-  (org-roam-index-file "~/Dropbox/emacs/org/org-roam/Index.org")
   (org-roam-completion-everywhere t)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
@@ -430,7 +427,8 @@
 (add-hook 'c-mode-common-hook 'add-c-mode-common-conf)
 
 ;; ccls
-(require 'ccls)
+(use-package ccls
+  :ensure t)
 (setq ccls-executable "/var/lib/snapd/snap/bin/ccls")
 (add-hook 'c-mode-hook #'lsp)
 
@@ -469,7 +467,7 @@
           #'(lambda ()
               (add-hook 'before-save-hook
                         'lsp-format-buffer)))
-(add-hook 'python-mode-hook #python-isort-on-save-mode)
+(add-hook 'python-mode-hook #'python-isort-on-save-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -491,6 +489,78 @@
 
 (provide 'init)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; hydra
+(leaf hydra
+    :ensure t
+    :init
+    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+    (leaf key-chord :ensure t)
+    (leaf bind-key :ensure t)
+    (leaf swiper :ensure t)
+    (leaf diff-hl :ensure t))
+
+(key-chord-define-global
+ "jk"
+ (defhydra hydra-pinky
+   ()
+   "pinky"
+   ("n" next-line)
+   ("p" previous-line)
+   ("f" forward-char)
+   ("b" backward-char)
+   ("a" beginning-of-line)
+   ("e" move-end-of-line)
+   ("v" scroll-up-command)
+   ("V" scroll-down-command)
+   ("g" keyboard-quit)
+   ("j" diff-hl-next-hunk)
+   ("k" diff-hl-previous-hunk)
+   ("o" other-window-or-split)
+   ("r" avy-goto-word-1)
+   ("l" recenter-top-bottom)
+   ("s" swiper-isearch-region)
+   ("S" window-swap-states)
+   ("q" kill-buffer)
+   ("w" clipboard-kill-ring-save)
+   ("<" beginning-of-buffer)
+   (">" end-of-buffer)
+   ("SPC" set-mark-command)
+   ("\C-m" dired-find-file)
+   ("1" delete-other-windows)
+   ("2" split-window-below)
+   ("3" split-window-right)
+   ("0" delete-window)
+   ("x" delete-window)
+   (";" counsel-switch-buffer)
+   ("M-n" next-buffer)
+   ("M-p" previous-buffer)))
+
+;; key-chord
+(setq key-chord-two-keys-delay 0.1)
+(key-chord-mode 1)
+(bind-key "C-'" 'hydra-pinky/body)
+
+(defun other-window-or-split ()
+  "If there is one window, open split window.
+If there are two or more windows, it will go to another window."
+  (interactive)
+  (when (one-window-p)
+	(split-window-vertically))
+  (other-window 1))
+
+(defun swiper-isearch-region ()
+  "If region is selected, `swiper-isearch' with the keyword selected in region.
+If the region isn't selected, `swiper-isearch'."
+  (interactive)
+  (if (not (use-region-p))
+      (swiper-isearch)
+    (swiper-isearch-thing-at-point)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; auto
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -498,11 +568,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(company-dabbrev-downcase nil t)
- '(company-idle-delay 0 t)
- '(company-minimum-prefix-length 3 t)
- '(company-selection-wrap-around t t)
- '(company-transformers '(company-sort-by-backend-importance) t)
+ '(company-dabbrev-downcase nil)
+ '(company-idle-delay 0)
+ '(company-minimum-prefix-length 3)
+ '(company-selection-wrap-around t)
+ '(company-transformers '(company-sort-by-backend-importance))
  '(completion-ignore-case t t)
  '(completion-styles '(orderless))
  '(default-input-method "japanese-skk" nil nil "Customized with leaf in `ddskk' block")
@@ -521,7 +591,7 @@
      ("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(python-isort python-mode tramp consult-org-roam org-roam-ui org-roam slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
+   '(cargo bind-key diff-hl key-chord swiper python-isort python-mode tramp consult-org-roam org-roam-ui org-roam slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
  '(skk-auto-insert-paren t)
  '(skk-preload t)
