@@ -262,6 +262,7 @@
 (use-package org-roam
   :init
   (setq org-roam-v2-ack t)
+  :ensure t
   :after org
   :defer t
   :hook
@@ -271,11 +272,16 @@
   (org-roam-db-location "~/.emacs.d/org-roam.db")
   (org-roam-directory "~/Dropbox/emacs/org/org-roam/")
   (org-roam-index-file "~/Dropbox/emacs/org/org-roam/Index.org")
+  (org-roam-completion-everywhere t)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-node-insert)
-         ("C-c n I" . org-roam-insert-immediate))
+         ("C-c n I" . org-roam-insert-immediate)
+         :map org-mode-map
+         ("C-M-i" . completion-at-point))
+  :config
+  (org-roam-db-autosync-enable)
   )
 
 

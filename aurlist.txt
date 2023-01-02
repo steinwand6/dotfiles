@@ -1,9 +1,15 @@
 auracle-git
+dbus-x11
 dropbox
 galculator-gtk2
+gcolor2
 gnome-icon-theme
 google-chrome
+ipw2100-fw
+ipw2200-fw
 kbdlight
 linux513
+manjaro-documentation-en
+manjaro-firmware
 pacaur
 qpdfview

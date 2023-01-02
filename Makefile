@@ -28,3 +28,6 @@ c:
 	systemctl enable --now snapd.socket
 	ln -s /var/lib/snapd/snap /snap
 	snap install ccls --classic
+
+hacking:
+	pacman -Sy nmap
