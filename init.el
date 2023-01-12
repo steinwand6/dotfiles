@@ -110,79 +110,6 @@
   :commands global-emojify-mode
   :hook ((after-init-hook . global-emojify-mode)))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 基本設定
-;;; encoding
-(set-language-environment "Japanese")
-(prefer-coding-system 'utf-8-unix)
-(setq buffer-file-coding-system 'utf-8)
-(set-buffer-file-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-clipboard-coding-system 'utf-8)
-;;; other-windowをC-tに置き変える
-(global-set-key (kbd "C-t") 'other-window)
-;;; 括弧の自動補完機能らしい
-(electric-pair-mode 1)
-;;; 右から左に読む言語に対応させないことで描画高速化
-(setq-default bidi-display-reordering nil)
-;;; splash screenを無効にする
-(setq inhibit-splash-screen t)
-;;; 同じ内容を履歴に記録しないようにする
-(setq history-delete-duplicates t)
-;; C-u C-SPC C-SPC ...でどんどん過去のマークを遡る
-(setq set-mark-command-repeat-pop t)
-;;; 複数のディレクトリで同じファイル名のファイルを開いたときのバッファ名を調整する
-(require 'uniquify)
-;; filename<dir> 形式のバッファ名にする
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-(setq uniquify-ignore-buffers-re "[^*]+")
-;;; ファイルを開いた位置を保存する
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file (concat user-emacs-directory "places"))
-;;; 釣合う括弧をハイライトする
-(show-paren-mode 1)
-;;; インデントにTABを使わないようにする
-(setq-default indent-tabs-mode nil)
-;;; 現在行に色をつける
-(global-hl-line-mode 1)
-;;; ミニバッファ履歴を次回Emacs起動時にも保存する
-(savehist-mode 1)
-;;; シェルに合わせるため、C-hは後退に割り当てる
-(global-set-key (kbd "C-h") 'delete-backward-char)
-;;; モードラインに時刻を表示する
-(display-time)
-;;; 行番号・桁番号を表示する
-(line-number-mode 1)
-(column-number-mode 1)
-;;; GCを減らして軽くする
-(setq gc-cons-threshold (* 10 gc-cons-threshold))
-;;; ログの記録行数を増やす
-(setq message-log-max 10000)
-;;; 履歴をたくさん保存する
-(setq history-length 1000)
-;;; メニューバーとツールバーとスクロールバーを消す
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-;;; 行番号表示
-(if (version<= "26.0.50" emacs-version)
-    (progn
-      (global-display-line-numbers-mode)
-      (set-face-attribute 'line-number nil
-                          :foreground "DarkOliveGreen"
-                          :background "#131521")
-      (set-face-attribute 'line-number-current-line nil
-                          :foreground "gold")))
-(setq-default indicate-empty-lines t)
-(setq-default indicate-buffer-boundaries 'left)
-;;; C-x oの代わりのバッファ移動
-(global-set-key "\C-cl" 'windmove-right)
-(global-set-key "\C-ch" 'windmove-left)
-(global-set-key "\C-cj" 'windmove-down)
-(global-set-key "\C-ck" 'windmove-up)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -558,6 +485,47 @@ If the region isn't selected, `swiper-isearch'."
       (swiper-isearch)
     (swiper-isearch-thing-at-point)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 起動時間測定
+;; 参考：https://zenn.dev/takeokunn/articles/56010618502ccc#%E8%A8%88%E6%B8%AC%E6%96%B9%E6%B3%95
+(defconst my/before-load-init-time (current-time))
+
+;;;###autoload
+(defun my/load-init-time ()
+  "Loading time of user init files including time for `after-init-hook'."
+  (let ((time1 (float-time
+                (time-subtract after-init-time my/before-load-init-time)))
+        (time2 (float-time
+                (time-subtract (current-time) my/before-load-init-time))))
+    (message (concat "Loading init files: %.0f [msec], "
+                     "of which %.f [msec] for `after-init-hook'.")
+             (* 1000 time1) (* 1000 (- time2 time1)))))
+(add-hook 'after-init-hook #'my/load-init-time t)
+
+(defvar my/tick-previous-time my/before-load-init-time)
+
+;;;###autoload
+(defun my/tick-init-time (msg)
+  "Tick boot sequence at loading MSG."
+  (when my/loading-profile-p
+    (let ((ctime (current-time)))
+      (message "---- %5.2f[ms] %s"
+               (* 1000 (float-time
+                        (time-subtract ctime my/tick-previous-time)))
+               msg)
+      (setq my/tick-previous-time ctime))))
+
+(defun my/emacs-init-time ()
+  "Emacs booting time in msec."
+  (interactive)
+  (message "Emacs booting time: %.0f [msec] = `emacs-init-time'."
+           (* 1000
+              (float-time (time-subtract
+                           after-init-time
+                           before-init-time)))))
+
+(add-hook 'after-init-hook #'my/emacs-init-time)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto
@@ -606,5 +574,10 @@ If the region isn't selected, `swiper-isearch'."
 ;; Local Variables:
 ;; indent-tabs-mode: nil
 ;; End:
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 起動時間高速化後処理
+(setq file-name-handler-alist my-saved-file-name-handler-alist)
 
 ;;; init.el ends here
