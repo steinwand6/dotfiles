@@ -81,4 +81,35 @@
 (global-set-key "\C-ch" 'windmove-left)
 (global-set-key "\C-cj" 'windmove-down)
 (global-set-key "\C-ck" 'windmove-up)
+;;; マウス操作の無効化
+(global-unset-key [mouse-1])
+(global-unset-key [down-mouse-1])
+(global-unset-key [drag-mouse-1])
+(global-unset-key [double-mouse-1])
+(global-unset-key [double-drag-Mouse-1])
+(global-unset-key [triple-mouse-1])
+(global-unset-key [triple-drag-mouse-1])
+(global-unset-key [\S-down-mouse-1])
+(global-unset-key [\C-down-mouse-1])
+(global-unset-key [\M-mouse-1])
+(global-unset-key [\M-down-mouse-1])
+(global-unset-key [\M-drag-mouse-1])
+(global-unset-key [mouse-2])
+(global-unset-key [mouse-3])
+(global-unset-key [\S-mouse-3])
+(global-unset-key [\S-down-mouse-3])
+(global-unset-key [\C-down-mouse-3])
+(global-unset-key [\M-mouse-3])
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; superキーを使いたい(lspの中で定義されている)
+(defun shani-cheer ()
+  (interactive)
+  (shell-command "~/Dropbox/random_open.sh shani_cheer"))
+(bind-key "s-@" #'shani-cheer)
+;;; kill-this-buffer
+(bind-key "s-k" #'kill-this-buffer)
+
+(provide 'init)
 
