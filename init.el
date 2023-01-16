@@ -49,10 +49,10 @@
 ;;; use-package
 (leaf use-package :ensure t :require t)
 
-;;; smartparens (要らない気がしてきたのでデフォで有効にはしない)
+;;; smartparens
 (leaf smartparens
   :ensure t)
-;;;;(smartparens-global-mode t)
+(smartparens-global-mode t)
 
 ;; neotree
 (leaf neotree

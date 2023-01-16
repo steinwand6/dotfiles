@@ -100,3 +100,5 @@
 (global-unset-key [\S-down-mouse-3])
 (global-unset-key [\C-down-mouse-3])
 (global-unset-key [\M-mouse-3])
+;;; 右のwindow非表示
+(global-set-key "\C-c0l" 'windmove-delete-right)
