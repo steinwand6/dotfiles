@@ -291,15 +291,24 @@
 ;;; modus-mode
 (leaf modus-themes
   :ensure t
-  :bind (("<f5>" . modus-themes-toggle))
+  :bind (("<f5>" . my-modus-themes-toggle))
   :custom ((modus-themes-italic-constructs . t)
            (modus-themes-bold-constructs)
            (modus-themes-region quote
-                              (bg-only no-extend)))
-  :config
-  (modus-themes-load-themes)
-  (with-eval-after-load 'modus-themes
-    (modus-themes-load-operandi)))
+								(bg-only no-extend))))
+
+(defun my-modus-themes-toggle ()
+  "Toggle between `modus-operandi' and `modus-vivendi' themes.
+This uses `enable-theme' instead of the standard method of
+`load-theme'.  The technicalities are covered in the Modus themes
+manual."
+  (interactive)
+  (pcase (modus-themes--current-theme)
+    ('modus-vivendi (modus-themes-select 'modus-operandi-tinted))
+	('modus-operandi-tinted (modus-themes-select 'modus-vivendi))
+    (_ (error "No Modus theme is loaded; evaluate `modus-themes-load-themes' first"))))
+(modus-themes-select 'modus-vivendi)
+
 ;;; alpha
 (if window-system 
     (progn
@@ -558,8 +567,8 @@ If the region isn't selected, `swiper-isearch'."
  '(neo-theme 'ascii)
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
-     ("melpa" . "https://melpa.org/packages/")
-     ("gnu" . "https://elpa.gnu.org/packages/")))
+	 ("melpa" . "https://melpa.org/packages/")
+	 ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
    '(cargo bind-key diff-hl key-chord swiper python-isort python-mode tramp consult-org-roam org-roam-ui org-roam slime totp tuareg flycheck flycheck-golangci-lint flycheck-rust go-eldoc go-mode rjsx-mode emojify org-journal smartparens-config smartparens-lisp magit modus-themes macrostep leaf-tree leaf-convert hydra el-get blackout))
  '(show-paren-mode t)
