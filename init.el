@@ -110,6 +110,13 @@
   :commands global-emojify-mode
   :hook ((after-init-hook . global-emojify-mode)))
 
+;;; GCMH(Garbage Collection Magic Hack)の有効化
+(leaf gcmh
+  :ensure t
+  :custom
+  (gcmh-verbose . t)
+  :config
+  (gcmh-mode 1))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -329,7 +336,8 @@ manual."
 (use-package lsp-ui
   :ensure t)
 
-(setq read-process-output-max (* 1024 1024))
+(setq read-process-output-max (* 1024 1024 3)) ;; 3mb
+(setq lsp-idle-delay 0.500)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
