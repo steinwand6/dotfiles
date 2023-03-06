@@ -31,6 +31,7 @@ coreutils
 cpupower
 cronie
 cryptsetup
+dbus
 device-mapper
 dhclient
 dhcpcd
@@ -39,7 +40,6 @@ discord
 dmidecode
 dmraid
 dnsmasq
-docker
 docker-compose
 dosfstools
 e2fsprogs
@@ -104,6 +104,7 @@ iptables
 iputils
 jdk8-openjdk
 jfsutils
+john
 jq
 jre8-openjdk
 jre8-openjdk-headless
@@ -212,6 +213,7 @@ psmisc
 pulseaudio-bluetooth
 pulseaudio-ctl
 pulseaudio-zeroconf
+python-installer
 qemu-full
 reiserfsprogs
 rlwrap

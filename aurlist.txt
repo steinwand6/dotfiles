@@ -1,5 +1,5 @@
+anki
 auracle-git
-dbus-x11
 dropbox
 galculator-gtk2
 gcolor2
