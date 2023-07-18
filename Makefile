@@ -4,6 +4,7 @@ backup:
 
 update:
 	sudo pacman -Syyu
+	rustup update
 
 pacman:
 	pacman -S emacs
